@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Generator de Portofoliu - Creează-ți Pagina</title>
     <link rel="stylesheet" href="style.css">
+    <script src="script.js"></script>
 </head>
 <body>
 
@@ -22,10 +23,6 @@
                     <input type="text" id="jobTitle" name="jobTitle" placeholder="ex: Frontend Developer" required>
                 </div>
                 <div class="form-group">
-                    <label for="profilePicUrl">URL Fotografie de Profil</label>
-                    <input type="url" id="profilePicUrl" name="profilePicUrl" placeholder="https://.../imaginea-ta.jpg">
-                </div>
-                <div class="form-group">
                     <label for="bio">Scurtă Descriere (Bio)</label>
                     <textarea id="bio" name="bio" placeholder="Spune-ne ceva despre tine, pasiunile tale și ce te motivează." required></textarea>
                 </div>
@@ -37,44 +34,11 @@
                     <input type="text" id="skills" name="skills" placeholder="ex: HTML, CSS, JavaScript, React, Git">
                 </div>
             </div>
-            <div class="form-section">
-                <h2>Proiectul 1</h2>
-                <div class="form-group">
-                    <label for="project1Title">Titlu Proiect</label>
-                    <input type="text" id="project1Title" name="project1Title" placeholder="ex: Website de E-commerce">
-                </div>
-                <div class="form-group">
-                    <label for="project1Image">URL Imagine Proiect</label>
-                    <input type="url" id="project1Image" name="project1Image" placeholder="https://.../proiect1.jpg">
-                </div>
-                <div class="form-group">
-                    <label for="project1Desc">Descriere Proiect</label>
-                    <textarea id="project1Desc" name="project1Desc" placeholder="Descrie pe scurt proiectul, tehnologiile folosite și rolul tău."></textarea>
-                </div>
-                <div class="form-group">
-                    <label for="project1Link">Link către Proiect (Live sau GitHub)</label>
-                    <input type="url" id="project1Link" name="project1Link" placeholder="https://github.com/utilizator/proiect">
-                </div>
-            </div>
-            <div class="form-section">
-                <h2>Date de Contact</h2>
-                <div class="form-group">
-                    <label for="email">Email</label>
-                    <input type="email" id="email" name="email" placeholder="nume@exemplu.com">
-                </div>
-                <div class="form-group">
-                    <label for="linkedin">Profil LinkedIn</label>
-                    <input type="url" id="linkedin" name="linkedin" placeholder="https://linkedin.com/in/utilizator">
-                </div>
-                <div class="form-group">
-                    <label for="github">Profil GitHub</label>
-                    <input type="url" id="github" name="github" placeholder="https://github.com/utilizator">
-                </div>
-            </div>
-
+            
             <button type="submit" class="submit-btn">Generează Portofoliu</button>
         </form>
+        <div id="portfolio-preview" class="container">
+        </div>
     </main>
-
 </body>
 </html>
