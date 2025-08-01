@@ -1,6 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
     const portfolioForm = document.querySelector('.generator-form');
-    const previewContainer = document.getElementById('portfolio-preview');
     const addProjectBtn = document.getElementById('add-project-btn');
     const projectsContainer = document.getElementById('projects-container');
     const saveDataToLocalStorage = () => {
@@ -17,16 +16,17 @@ document.addEventListener('DOMContentLoaded', () => {
         };
         localStorage.setItem('portfolioFormData', JSON.stringify(currentData));
     };
+
     const loadDataFromLocalStorage = () => {
         const savedData = localStorage.getItem('portfolioFormData');
         if (savedData) {
-            const data = JSON.parse(savedData); 
+            const data = JSON.parse(savedData);
             document.getElementById('fullName').value = data.fullName || '';
             document.getElementById('jobTitle').value = data.jobTitle || '';
             document.getElementById('bio').value = data.bio || '';
             document.getElementById('skills').value = data.skills || '';
             if (data.projects && data.projects.length > 0) {
-                projectsContainer.innerHTML = ''; 
+                projectsContainer.innerHTML = '';
                 data.projects.forEach(project => {
                     const projectEntry = document.createElement('div');
                     projectEntry.classList.add('project-form-entry');
@@ -44,6 +44,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
     portfolioForm.addEventListener('input', saveDataToLocalStorage);
     loadDataFromLocalStorage();
+
     addProjectBtn.addEventListener('click', () => {
         const projectEntry = document.createElement('div');
         projectEntry.classList.add('project-form-entry');
@@ -65,13 +66,34 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    portfolioForm.addEventListener('submit', (event) => {
+    portfolioForm.addEventListener('submit', async (event) => {
         event.preventDefault();
-        const finalDataJSON = localStorage.getItem('portfolioFormData');
-        if (!finalDataJSON || finalDataJSON === "{}") {
-            alert("Te rugăm să completezi măcar un câmp înainte de a genera portofoliul.");
-            return; 
+        const savedDataJSON = localStorage.getItem('portfolioFormData');
+        if (!savedDataJSON) {
+            alert("Formularul este gol. Te rugăm să completezi ceva.");
+            return;
         }
-        window.location.href = 'portofoliu-generat.html';
+        const portfolioData = JSON.parse(savedDataJSON);
+        try {
+            const response = await fetch('http://localhost:3000/api/portfolio', {
+                method: 'POST', 
+                headers: {
+                    'Content-Type': 'application/json' 
+                },
+                body: JSON.stringify(portfolioData) 
+            });
+            if (!response.ok) {
+                const errorText = await response.text();
+                throw new Error(`Eroare de la server: ${response.status} ${response.statusText}. Detalii: ${errorText}`);
+            }
+            const result = await response.json();
+            
+            console.log('Serverul a răspuns:', result);
+            alert('Portofoliul a fost trimis cu succes către server! Verifică terminalul unde rulează "node server.js".');
+
+        } catch (error) {
+            console.error('A apărut o eroare la trimiterea datelor:', error);
+            alert('Nu am putut trimite datele către server. Asigură-te că serverul Node.js rulează și verifică consola pentru detalii.');
+        }
     });
 });
