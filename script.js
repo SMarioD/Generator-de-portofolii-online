@@ -66,21 +66,12 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     portfolioForm.addEventListener('submit', (event) => {
-        event.preventDefault(); 
+        event.preventDefault();
         const finalDataJSON = localStorage.getItem('portfolioFormData');
-        if (!finalDataJSON) return; 
-
-        const portfolioData = JSON.parse(finalDataJSON);
-        portfolioData.skillList = (portfolioData.skills || '').split(',').map(s => s.trim()).filter(s => s);
-        portfolioData.projectList = portfolioData.projects; 
-        const generatedHTML = `
-            <h2 style="text-align: center; margin-top: 3rem; margin-bottom: 1rem;">Preview Portofoliu</h2>
-            <header class="portfolio-header"><h1>${portfolioData.name || 'Numele Tău'}</h1><p>${portfolioData.title || 'Titlul Tău Profesional'}</p></header>
-            <section class="portfolio-section"><h2>Despre Mine</h2><p>${portfolioData.description || 'Descrierea ta va apărea aici.'}</p></section>
-            <section class="portfolio-section"><h2>Abilități Tehnice</h2><ul class="skills-list">${portfolioData.skillList.length > 0 ? portfolioData.skillList.map(skill => `<li>${skill}</li>`).join('') : '<li>Adaugă abilitățile tale.</li>'}</ul></section>
-            <section class="portfolio-section"><h2>Proiecte</h2><div class="projects-grid">${portfolioData.projectList.length > 0 ? portfolioData.projectList.map(proj => `<div class="project-card"><img src="https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&q=80" alt="Imagine proiect"><div class="project-card-body"><h3>${proj.title || 'Titlu Proiect'}</h3><p>${proj.description || 'Descrierea proiectului.'}</p><a href="${proj.link}" class="project-link" target="_blank" rel="noopener noreferrer">Vezi Proiectul</a></div></div>`).join('') : '<p>Adaugă proiectele tale.</p>'}</div></section>
-        `;
-
-        previewContainer.innerHTML = generatedHTML;
+        if (!finalDataJSON || finalDataJSON === "{}") {
+            alert("Te rugăm să completezi măcar un câmp înainte de a genera portofoliul.");
+            return; 
+        }
+        window.location.href = 'portofoliu-generat.html';
     });
 });
